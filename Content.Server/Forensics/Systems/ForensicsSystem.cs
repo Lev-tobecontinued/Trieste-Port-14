@@ -1,3 +1,5 @@
+using Content.Server.Body;
+using Content.Server.Body.Components;
 using Content.Server.Body.Systems;
 using Content.Server.DoAfter;
 using Content.Server.Fluids.EntitySystems;
@@ -12,7 +14,6 @@ using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.DoAfter;
 using Content.Shared.Forensics;
 using Content.Shared.Forensics.Components;
-using Content.Shared.Forensics.Systems;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Inventory;
@@ -24,7 +25,7 @@ using Content.Shared.Hands.Components;
 
 namespace Content.Server.Forensics
 {
-    public sealed class ForensicsSystem : SharedForensicsSystem
+    public sealed class ForensicsSystem : EntitySystem
     {
         [Dependency] private readonly IRobustRandom _random = default!;
         [Dependency] private readonly InventorySystem _inventory = default!;
@@ -80,7 +81,7 @@ namespace Content.Server.Forensics
             else
             {
                 // If set manually (for example by cloning) we also need to inform the bloodstream of the correct DNA string so it can be updated
-                var ev = new GenerateDnaEvent { Owner = ent.Owner, DNA = ent.Comp.DNA };
+                var ev = new RefreshBloodEvent();
                 RaiseLocalEvent(ent.Owner, ref ev);
             }
         }
@@ -318,7 +319,12 @@ namespace Content.Server.Forensics
         }
 
         #region Public API
-        public override void RandomizeDNA(Entity<DnaComponent?> ent)
+
+        /// <summary>
+        /// Give the entity a new, random DNA string and call an event to notify other systems like the bloodstream that it has been changed.
+        /// Does nothing if it does not have the DnaComponent.
+        /// </summary>
+        public void RandomizeDNA(Entity<DnaComponent?> ent)
         {
             if (!Resolve(ent, ref ent.Comp, false))
                 return;
@@ -326,11 +332,15 @@ namespace Content.Server.Forensics
             ent.Comp.DNA = GenerateDNA();
             Dirty(ent);
 
-            var ev = new GenerateDnaEvent { Owner = ent.Owner, DNA = ent.Comp.DNA };
+            var ev = new RefreshBloodEvent();
             RaiseLocalEvent(ent.Owner, ref ev);
         }
 
-        public override void RandomizeFingerprint(Entity<FingerprintComponent?> ent)
+        /// <summary>
+        /// Give the entity a new, random fingerprint string.
+        /// Does nothing if it does not have the FingerprintComponent.
+        /// </summary>
+        public void RandomizeFingerprint(Entity<FingerprintComponent?> ent)
         {
             if (!Resolve(ent, ref ent.Comp, false))
                 return;

@@ -865,16 +865,17 @@ namespace Content.Shared.Chemistry.Components
                 {
                     continue;
                 }
-
+                var reagentColor = reagent.GetColor();
                 if (first)
                 {
                     first = false;
-                    mixColor = proto.SubstanceColor;
-                    continue;
+                    mixColor = reagentColor;
                 }
-
-                var interpolateValue = quantity.Float() / runningTotalQuantity.Float();
-                mixColor = Color.InterpolateBetween(mixColor, proto.SubstanceColor, interpolateValue);
+                else
+                {
+                    var interpolateValue = quantity.Float() / runningTotalQuantity.Float();
+                    mixColor = Color.InterpolateBetween(mixColor, reagentColor, interpolateValue);
+                }
             }
             return mixColor;
         }
@@ -908,16 +909,17 @@ namespace Content.Shared.Chemistry.Components
                 {
                     continue;
                 }
-
+                var reagentColor = reagent.GetColor();
                 if (first)
                 {
                     first = false;
-                    mixColor = proto.SubstanceColor;
-                    continue;
+                    mixColor = reagentColor;
                 }
-
-                var interpolateValue = quantity.Float() / runningTotalQuantity.Float();
-                mixColor = Color.InterpolateBetween(mixColor, proto.SubstanceColor, interpolateValue);
+                else
+                {
+                    var interpolateValue = quantity.Float() / runningTotalQuantity.Float();
+                    mixColor = Color.InterpolateBetween(mixColor, reagentColor, interpolateValue);
+                }
             }
             return mixColor;
         }

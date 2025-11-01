@@ -22,16 +22,18 @@
           Quantity: 5
   - type: FlavorProfile
     flavors:
-      - people
+    - people
   - type: Tag
     tags:
-      - Meat
+    - Meat
 
 - type: entity
   id: BaseHumanOrgan
   parent: BaseHumanOrganUnGibbable
   abstract: true
   components:
+  - type: Appearance
+  - type: Organ
   - type: Gibbable
 
 - type: entity
@@ -52,7 +54,7 @@
   - type: BadFood
   - type: Tag
     tags:
-      - Meat
+    - Meat
   - type: SolutionContainerManager
     solutions:
       organ:
@@ -66,7 +68,7 @@
           Quantity: 5
   - type: FlavorProfile
     flavors:
-      - people
+    - people
   - type: FoodSequenceElement
     entries:
       Burger: Brain
@@ -74,7 +76,7 @@
   - type: Item
     size: Small
     heldPrefix: brain
-  
+
 - type: entity
   id: OrganHumanEyes
   parent: BaseHumanOrgan
@@ -83,8 +85,8 @@
   components:
   - type: Sprite
     layers:
-      - state: eyeball-l
-      - state: eyeball-r
+    - state: eyeball-l
+    - state: eyeball-r
   - type: Item
     size: Small
     heldPrefix: eyeballs
@@ -126,8 +128,8 @@
   components:
   - type: Sprite
     layers:
-      - state: lung-l
-      - state: lung-r
+    - state: lung-l
+    - state: lung-r
   - type: Item
     size: Small
     heldPrefix: lungs
@@ -235,8 +237,8 @@
   components:
   - type: Sprite
     layers:
-      - state: kidney-l
-      - state: kidney-r
+    - state: kidney-l
+    - state: kidney-r
   - type: Item
     size: Small
     heldPrefix: kidneys

@@ -494,6 +494,8 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
 
         if (sync)
             Dirty(uid, humanoid);
+            var ev = new LoadedHumanoidAppearanceEvent { };
+            RaiseLocalEvent(uid, ref ev);
     }
 
     private void EnsureDefaultMarkings(EntityUid uid, HumanoidAppearanceComponent? humanoid)
